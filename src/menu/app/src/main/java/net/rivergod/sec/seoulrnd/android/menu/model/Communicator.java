@@ -1,4 +1,4 @@
-package net.rivergod.sec.seoulrnd.android.menu;
+package net.rivergod.sec.seoulrnd.android.menu.model;
 
 import android.content.Context;
 import android.text.Html;
@@ -20,8 +20,9 @@ import com.navercorp.volleyextensions.cache.universalimageloader.disc.impl.Unive
 import com.navercorp.volleyextensions.cache.universalimageloader.memory.impl.UniversalLimitedAgeMemoryCache;
 import com.navercorp.volleyextensions.cache.universalimageloader.memory.impl.UniversalLruMemoryCache;
 
-import net.rivergod.sec.seoulrnd.android.menu.dto.CuisineDTO;
-import net.rivergod.sec.seoulrnd.android.menu.dto.DayCuisionsDTO;
+import net.rivergod.sec.seoulrnd.android.menu.model.dto.CuisineDTO;
+import net.rivergod.sec.seoulrnd.android.menu.model.dto.DayCuisionsDTO;
+import net.rivergod.sec.seoulrnd.android.menu.view.MenuItemIconResource;
 
 import org.htmlcleaner.CleanerProperties;
 import org.htmlcleaner.HtmlCleaner;
@@ -117,7 +118,7 @@ public class Communicator {
 
         }
 
-        Communicator.getRequestQueue().add(new Request<String>(Request.Method.POST, "http://www.welstory.com/menu/seoulrnd/menu.jsp", new Response.ErrorListener() {
+        Communicator.getRequestQueue().add(new Request<String>(Request.Method.POST, "http://www.welstory.com/menu/seoulrnd/menu.jsp?dt=20170313", new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Communicator.getEventBus().post(error);

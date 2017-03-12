@@ -9,16 +9,19 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 
+import net.rivergod.sec.seoulrnd.android.menu.presenter.OptionPresenter;
+import net.rivergod.sec.seoulrnd.android.menu.view.MenuActivity;
+
 import java.util.Calendar;
 
 public class RegisterAlarm extends BroadcastReceiver {
 
-    private static final String ALARM_TAG= "net.rivergod.sec.seoulrnd.android.menu.alarm";
+    private static final String ALARM_TAG = "net.rivergod.sec.seoulrnd.android.menu.alarm";
     private static final long NEXT_DAY = 1000 * 60 * 60 * 24L;
 
-    public static void register(Context context, int hour, int minute){
+    public static void register(Context context, int hour, int minute) {
 
-        if(hour == -1){
+        if (hour == -1) {
             return;
         }
 
@@ -32,7 +35,7 @@ public class RegisterAlarm extends BroadcastReceiver {
 
         long setTime = calendar.getTimeInMillis();
 
-        if(setTime < nowTime ){
+        if (setTime < nowTime) {
             setTime += NEXT_DAY;
         }
 
@@ -47,7 +50,7 @@ public class RegisterAlarm extends BroadcastReceiver {
 
     }
 
-    public static void unregister(Context context){
+    public static void unregister(Context context) {
 
         AlarmManager alarm = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
 
@@ -59,7 +62,7 @@ public class RegisterAlarm extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         String name = intent.getAction();
-        if(name.equals(ALARM_TAG)){
+        if (name.equals(ALARM_TAG)) {
 
             Calendar calendar = Calendar.getInstance();
             int hour = calendar.get(Calendar.HOUR_OF_DAY);
@@ -67,7 +70,7 @@ public class RegisterAlarm extends BroadcastReceiver {
             register(context, hour, minute);
 
             int day = Calendar.getInstance().get(Calendar.DAY_OF_WEEK);
-            if(day != Calendar.SUNDAY && day != Calendar.SATURDAY) {
+            if (day != Calendar.SUNDAY && day != Calendar.SATURDAY) {
                 NotificationManager nm = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
                 PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, new Intent(context, MenuActivity.class), PendingIntent.FLAG_UPDATE_CURRENT);
 
@@ -84,18 +87,20 @@ public class RegisterAlarm extends BroadcastReceiver {
                 nm.notify(111, mBuilder.build());
             }
 
-        }else if(name.equals(Intent.ACTION_BOOT_COMPLETED)){
+        } else if (name.equals(Intent.ACTION_BOOT_COMPLETED)) {
 
             SharedPreferences prefs = context.getSharedPreferences(MenuActivity.ALARM_TAG, Context.MODE_PRIVATE);
-            int select = prefs.getInt(MenuActivity.ALARM_TAG + MenuOptionControl.SELECT, -1);
-            if(select != -1){
-                int hour = prefs.getInt(MenuActivity.ALARM_TAG + MenuOptionControl.HOUR, -1);
-                int minute = prefs.getInt(MenuActivity.ALARM_TAG + MenuOptionControl.MINUTE, -1);
+            int select = prefs.getInt(MenuActivity.ALARM_TAG + OptionPresenter.SELECT, -1);
+            if (select != -1) {
+                int hour = prefs.getInt(MenuActivity.ALARM_TAG + OptionPresenter.HOUR, -1);
+                int minute = prefs.getInt(MenuActivity.ALARM_TAG + OptionPresenter.MINUTE, -1);
                 register(context, hour, minute);
             }
-
         }
+    }
 
-
+    public static boolean isValid(int hour, int minute) {
+        return hour > -1 && hour < 24
+                && minute > -1 && minute < 60;
     }
 }

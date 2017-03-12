@@ -1,4 +1,6 @@
-package net.rivergod.sec.seoulrnd.android.menu;
+package net.rivergod.sec.seoulrnd.android.menu.view;
+
+import net.rivergod.sec.seoulrnd.android.menu.R;
 
 import java.util.HashMap;
 
@@ -61,8 +63,8 @@ public class MenuItemIconResource {
         url = url.substring(url.lastIndexOf("/") + 1, url.length() - 4);
 
         int returnValue = 0;
-        if(iconMap.containsKey(url)) {
-           returnValue = iconMap.get(url);
+        if (iconMap.containsKey(url)) {
+            returnValue = iconMap.get(url);
         }
 
         return returnValue;

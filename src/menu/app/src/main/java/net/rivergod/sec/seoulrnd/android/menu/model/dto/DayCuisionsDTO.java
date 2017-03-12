@@ -1,4 +1,4 @@
-package net.rivergod.sec.seoulrnd.android.menu.dto;
+package net.rivergod.sec.seoulrnd.android.menu.model.dto;
 
 import java.util.ArrayList;
 import java.util.List;
